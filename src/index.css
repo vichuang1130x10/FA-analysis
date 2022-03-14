@@ -1,13 +1,59 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;400;700&display=swap");
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+*,
+*::after,
+*::before {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+  line-height: 1.6;
+  word-spacing: 2px;
+}
+
+htmel,
+body {
+  font-family: "Noto Serif TC", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  display: block;
+
+  position: relative;
+  min-height: 100%;
+
+  font-size: 14px;
+  background-color: #ffffff;
+
+  line-height: 1.428;
+  color: #333;
+  margin: 0;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+pre {
+  background-color: #eee;
+  padding: 5px 10px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+td,
+tr {
+  text-align: center;
 }
