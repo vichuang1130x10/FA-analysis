@@ -39,7 +39,7 @@ export default function FileHandling() {
     // console.log(parsingStationQty("cap0201", errorListComponentType));
     const cadRank = sortResult(errorListComponentType);
     const snResult = sortResult(errorListSn);
-    const repairMoreThanThree = snResult.filter((d) => d[1] > 3);
+    const repairMoreThanThree = snResult.filter((d) => d[1] > 5);
     console.log(getBatch(errorListComponentType, "cap0201", batchs));
     const paretoStation = allDefectsStationPareto(errorListStations);
     navigate(`/dashboard`, {

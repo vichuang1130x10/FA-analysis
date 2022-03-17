@@ -48,11 +48,15 @@ export default function App(props) {
   const errorListComponentType = props.location.state.errorListComponentType;
   const allErrorList = props.location.state.allErrorList;
   const batches = props.location.state.batchs;
+  const errorListSn = props.location.state.errorListSn
   const repairMoreThanThree = props.location.state.repairMoreThanThree;
   const top10 = tableData.slice(0, 10).map((item) => item[0]);
   const top10Batches = top10.map((item) =>
     getBatch(errorListComponentType, item, batches)
   );
+
+const rule3 = allErrorList.filter(item => item.level === 3)
+console.log(rule3)
 
   // console.log(top10Batches);
 
@@ -78,7 +82,7 @@ export default function App(props) {
               <h4>{allErrorList.length}</h4>
             </InfoCard>
             <InfoCard>
-              <h4>{`Rework Count > 3`}</h4>
+              <h4>{`Rework Count > 5`}</h4>
               <h4>{repairMoreThanThree.length}</h4>
             </InfoCard>
           </div>
