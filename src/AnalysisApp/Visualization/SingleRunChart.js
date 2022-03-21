@@ -37,9 +37,11 @@ class DashboardTrendChart extends Component {
       .range([margin.left, width - margin.left]);
     // const [min, max] = d3.extent(updateData, (d) => d.yield);
 
+    const [min, max] = d3.extent(data, (d) => d.numbers);
+
     const yScale = d3
       .scaleLinear()
-      .domain([0, 120])
+      .domain([Math.min(min, 0), max])
       .range([height - margin.bottom, margin.top]);
 
     const trend = d3

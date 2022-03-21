@@ -48,15 +48,17 @@ export default function App(props) {
   const errorListComponentType = props.location.state.errorListComponentType;
   const allErrorList = props.location.state.allErrorList;
   const batches = props.location.state.batchs;
-  const errorListSn = props.location.state.errorListSn
-  const repairMoreThanThree = props.location.state.repairMoreThanThree;
+  const errorListSn = props.location.state.errorListSn;
+  const repairMoreThanFive = props.location.state.repairMoreThanFive;
   const top10 = tableData.slice(0, 10).map((item) => item[0]);
   const top10Batches = top10.map((item) =>
     getBatch(errorListComponentType, item, batches)
   );
 
-const rule3 = allErrorList.filter(item => item.level === 3)
-console.log(rule3)
+  const notAllowed = props.location.state.notAllowed;
+
+  const rule3 = allErrorList.filter((item) => item.level === 3);
+  console.log(rule3);
 
   // console.log(top10Batches);
 
@@ -79,11 +81,15 @@ console.log(rule3)
             <h4>IPU-M MB MK2</h4>
             <InfoCard>
               <h4>FA Count</h4>
-              <h4>{allErrorList.length}</h4>
+              <h4 style={{ color: "red" }}>{allErrorList.length}</h4>
             </InfoCard>
             <InfoCard>
               <h4>{`Rework Count > 5`}</h4>
-              <h4>{repairMoreThanThree.length}</h4>
+              <h4 style={{ color: "red" }}>{repairMoreThanFive.length}</h4>
+            </InfoCard>
+            <InfoCard>
+              <h4>{`Not Allowed to Repair`}</h4>
+              <h4 style={{ color: "red" }}>{notAllowed.length}</h4>
             </InfoCard>
           </div>
           <div className="dashboard-card2">
@@ -124,19 +130,19 @@ console.log(rule3)
           <div className="dashboard-card3">
             <h4>Failure Component Pie Chart</h4>
             <br />
-            <div style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "center" }} className="chart-outline">
               <PieChart data={tableData} />
             </div>
             <br />
             <h4>Failure by Test Station Pareto Chart</h4>
             <br />
-            <div style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "center" }} className="chart-outline">
               <ParetoChart data={paretoData} />
             </div>
             <br />
             <h4>Top 10 Failures Run Chart</h4>
             <br />
-            <div style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "center" }} className="chart-outline">
               <RunChart data={top10Batches} tableData={tableData} />
             </div>
           </div>

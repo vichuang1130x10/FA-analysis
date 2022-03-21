@@ -1,7 +1,7 @@
 import { getWeek } from "../HelperFunction";
 import bom from "../../BoardData/bomStringfy.json";
 import cad from "../../BoardData/boarddatas.json";
-import { Level2,Level3 } from "../../BoardData/EnSupport";
+import { Level2, Level3 } from "../../BoardData/EnSupport";
 
 const sortMo = (a, b) => {
   if (a < b) {
@@ -11,8 +11,6 @@ const sortMo = (a, b) => {
   }
 };
 
-
-
 function sortByWeek(a, b) {
   if (a.Week > b.Week) {
     return 1;
@@ -20,8 +18,6 @@ function sortByWeek(a, b) {
     return -1;
   }
 }
-
-
 
 const getType = (failStation) => {
   switch (failStation) {
@@ -98,7 +94,7 @@ export function parsingErrorList(errorList) {
 
     let cadLoc = "";
     let pn = "";
-    let level = 1
+    let level = 1;
 
     if (obj["MODEL_NAME"] === "IPU-M MB MK2" && !n.batchs.includes(batchNo)) {
       n.batchs.push(batchNo);
@@ -108,11 +104,11 @@ export function parsingErrorList(errorList) {
       const locs = cad.filter((obj) => obj.CompName === item);
       if (locs.length) {
         cadLoc = locs[0].CompType;
-             if(Level2.includes(cadLoc)){
-        level = 2
-      }else if(Level3.includes(cadLoc)){
-        level = 3
-      }
+        if (Level2.includes(cadLoc)) {
+          level = 2;
+        } else if (Level3.includes(cadLoc)) {
+          level = 3;
+        }
       }
     }
 
@@ -288,6 +284,33 @@ export function parsingByFailSN(allDefectData) {
   return outputData;
 }
 
+export function parsingByLocation(allDefectData) {
+  const outputData = {};
+  allDefectData.forEach((item) => {
+    if (item.cadLoc !== "" && item.reason !== "NDF" && item.item !== "") {
+      if (
+        outputData[item.item] === null ||
+        outputData[item.item] === undefined
+      ) {
+        outputData[item.item] = [item];
+      } else {
+        outputData[item.item].push(item);
+      }
+    }
+  });
+
+  return outputData;
+}
+
+export function getNotAllowed(defectByLocation) {
+  return defectByLocation["IPU12_IC36"].concat(
+    defectByLocation["IPU12_IC55"],
+    defectByLocation["IPU34_IC36"],
+    defectByLocation["IPU34_IC55"],
+    defectByLocation["GW1_U1"]
+  );
+}
+
 export function parsingReasionQty(cadType, errorList) {
   if (errorList === undefined || errorList === null) {
     return [];
@@ -351,4 +374,3 @@ function getParetoData(allDefects) {
 
   return result;
 }
-

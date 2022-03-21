@@ -8,10 +8,12 @@ import {
   parsingByComponentType,
   parsingReasionQty,
   parsingStationQty,
+  parsingByLocation,
   parsingByFailSN,
   sortResult,
   getBatch,
   allDefectsStationPareto,
+  getNotAllowed,
 } from "../../Utils/ShopFloorDataParsing";
 
 export default function FileHandling() {
@@ -39,9 +41,13 @@ export default function FileHandling() {
     // console.log(parsingStationQty("cap0201", errorListComponentType));
     const cadRank = sortResult(errorListComponentType);
     const snResult = sortResult(errorListSn);
-    const repairMoreThanThree = snResult.filter((d) => d[1] > 5);
+    const repairMoreThanFive = snResult.filter((d) => d[1] > 5);
+    const reapirMoreThanTwo = snResult.filter((d) => d[1] > 2);
+    const reapirMoreThanThree = snResult.filter((d) => d[1] > 3);
     console.log(getBatch(errorListComponentType, "cap0201", batchs));
     const paretoStation = allDefectsStationPareto(errorListStations);
+    const parsingLocation = parsingByLocation(allErrorList);
+    const notAllowed = getNotAllowed(parsingLocation);
     navigate(`/dashboard`, {
       state: {
         allErrorList,
@@ -50,7 +56,8 @@ export default function FileHandling() {
         cadRank,
         paretoStation,
         batchs,
-        repairMoreThanThree,
+        repairMoreThanFive,
+        notAllowed,
       },
     });
   };
