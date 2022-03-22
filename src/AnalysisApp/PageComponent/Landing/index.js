@@ -6,12 +6,9 @@ import {
   parsingErrorList,
   concatAllStations,
   parsingByComponentType,
-  parsingReasionQty,
-  parsingStationQty,
   parsingByLocation,
   parsingByFailSN,
   sortResult,
-  getBatch,
   allDefectsStationPareto,
   getNotAllowed,
   parsingByLocationBySpecificSn,
@@ -26,30 +23,26 @@ export default function FileHandling() {
 
   const transferData = (e) => {
     const parsedErrorList = parsingErrorList(repairList.RepairList);
-    console.log(parsedErrorList);
+    // console.log(parsedErrorList);
     const batchs = parsedErrorList.batchs;
     batchs.shift();
     // console.log(batchs);
     const modelName = "IPU-M MB MK2";
-    console.log(parsedErrorList[modelName]);
+    // console.log(parsedErrorList[modelName]);
 
     const errorListStations = parsedErrorList[modelName];
     const allErrorList = concatAllStations(errorListStations);
     const errorListComponentType = parsingByComponentType(allErrorList);
     const errorListSn = parsingByFailSN(allErrorList);
-    console.log(errorListComponentType);
-    // console.log(errorListSn);
-    // console.log(parsingReasionQty("cap0201", errorListComponentType));
-    // console.log(parsingStationQty("cap0201", errorListComponentType));
+    // console.log(errorListComponentType);
+
     const cadRank = sortResult(errorListComponentType);
     const snResult = sortResult(errorListSn);
     const repairMoreThanFive = snResult.filter((d) => d[1] > 5);
-    const reapirMoreThanTwo = snResult.filter((d) => d[1] > 2);
+
     const reapirMoreThanThree = snResult
       .filter((d) => d[1] > 3)
       .map((d) => d[0]);
-
-    // console.log("repair more than 3", reapirMoreThanThree);
 
     const samePositionMoreThen3 = parsingByLocationBySpecificSn(
       errorListSn,

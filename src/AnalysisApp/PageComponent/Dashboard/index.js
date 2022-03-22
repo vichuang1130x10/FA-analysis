@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { navigate } from "@reach/router";
 import styled from "styled-components";
@@ -6,17 +6,7 @@ import PieChart from "../../Visualization/PieChart";
 import ParetoChart from "../../Visualization/Plato";
 import RunChart from "../../Visualization/RunChart";
 
-import {
-  parsingErrorList,
-  concatAllStations,
-  parsingByComponentType,
-  parsingReasionQty,
-  parsingStationQty,
-  parsingByFailSN,
-  sortResult,
-  getBatch,
-  allDefectsStationPareto,
-} from "../../Utils/ShopFloorDataParsing";
+import { getBatch } from "../../Utils/ShopFloorDataParsing";
 
 const InfoCard = styled.div`
   border: 1px solid #333;
@@ -33,9 +23,19 @@ const InfoCard = styled.div`
   }
 `;
 
+const InfoCardHead = styled.div`
+  border: 1px solid #333;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 8px;
+`;
+
 export default function App(props) {
   useEffect(() => {
-    console.log(props.location.state);
+    // console.log(props.location.state);
   });
 
   const handleTdOnClick = (item) => {
@@ -48,15 +48,14 @@ export default function App(props) {
     });
   };
 
-  // const tableData = props.location.state.cadRank;
-  // const paretoData = props.location.state.paretoStation;
-  // const errorListComponentType = props.location.state.errorListComponentType;
-  // const allErrorList = props.location.state.allErrorList;
-  // const batches = props.location.state.batchs;
-  // const errorListSn = props.location.state.errorListSn;
-  // const repairMoreThanFive = props.location.state.repairMoreThanFive;
-
-  // const notAllowed = props.location.state.notAllowed;
+  const handleCardOnClick = (data, attr) => {
+    navigate(`/monitoring`, {
+      state: {
+        data,
+        attr,
+      },
+    });
+  };
 
   const {
     cadRank: tableData,
@@ -64,7 +63,6 @@ export default function App(props) {
     errorListComponentType,
     allErrorList,
     batchs: batches,
-    errorListSn,
     repairMoreThanFive,
     notAllowed,
     samePositionMoreThen3,
@@ -76,40 +74,39 @@ export default function App(props) {
     getBatch(errorListComponentType, item, batches)
   );
 
-  // const rule3 = allErrorList.filter((item) => item.level === 3);
-  // console.log(rule3);
-
-  // console.log(top10Batches);
-
   return (
     <div className="page-vh">
       <div className="container">
         <div className="dashboard-page">
           <div className="dashboard-card1">
             <h4>IPU-M MB MK2</h4>
-            <InfoCard>
+            <InfoCardHead>
               <h4>FA Count</h4>
               <h4 style={{ color: "red" }}>{allErrorList.length}</h4>
-            </InfoCard>
-            <InfoCard>
+            </InfoCardHead>
+            <InfoCard onClick={() => handleCardOnClick(repairMoreThanFive, 0)}>
               <h4>{`Rework Count > 5`}</h4>
               <h4 style={{ color: "red" }}>{repairMoreThanFive.length}</h4>
             </InfoCard>
-            <InfoCard>
+            <InfoCard onClick={() => handleCardOnClick(notAllowed, 1)}>
               <h4>{`Not Allowed to Repair`}</h4>
               <h4 style={{ color: "red" }}>{notAllowed.length}</h4>
             </InfoCard>
 
-            <InfoCard>
-              <h4>{`Same Position > 3`}</h4>
-              <h4 style={{ color: "red" }}>{samePositionMoreThen3.length}</h4>
-            </InfoCard>
-
-            <InfoCard>
-              <h5>{`levle 2 Same position > 2`}</h5>
+            <InfoCard
+              onClick={() => handleCardOnClick(level2SamePositionMoreThen2, 2)}
+            >
+              <h5>{`BGA, QFN, Connector(levle 2) Same position repair > 2`}</h5>
               <h4 style={{ color: "red" }}>
                 {level2SamePositionMoreThen2.length}
               </h4>
+            </InfoCard>
+
+            <InfoCard
+              onClick={() => handleCardOnClick(samePositionMoreThen3, 3)}
+            >
+              <h4>{`Same Position repair > 3`}</h4>
+              <h4 style={{ color: "red" }}>{samePositionMoreThen3.length}</h4>
             </InfoCard>
           </div>
           <div className="dashboard-card2">

@@ -16,21 +16,7 @@ class Plato extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { data } = nextProps;
     if (!data) return {};
-    // const trimNameData = data.map((d) => {
-    //   const updateName =
-    //     d.defectName.length <= 18 ? d.defectName : d.defectName.substr(0, 18);
-    //   return {
-    //     defectName: updateName,
-    //     qty: d.qty,
-    //     indiv: d.indiv,
-    //     accu: d.accu,
-    //   };
-    // });
-    // const updateData =
-    //   trimNameData.length > 10 ? trimNameData.slice(0, 10) : trimNameData;
 
-    // console.log("plato chart start");
-    // console.log(updateData);
     const x = data.map((d) => d.defectName);
     // console.log(x);
     const xScale = d3

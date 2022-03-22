@@ -1,38 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Row } from "react-bootstrap";
 import { navigate } from "@reach/router";
-import styled from "styled-components";
 
 import ParetoChart from "../../Visualization/Plato";
 import SingleRunChart from "../../Visualization/SingleRunChart";
+import Histogram from "../../Visualization/Histogram";
 
 import {
-  parsingErrorList,
-  concatAllStations,
-  parsingByComponentType,
   parsingReasionQty,
   parsingStationQty,
-  parsingByFailSN,
-  sortResult,
   getBatch,
-  allDefectsStationPareto,
 } from "../../Utils/ShopFloorDataParsing";
-
-// const errorListStations = parsedErrorList[modelName];
-// const allErrorList = concatAllStations(errorListStations);
-// const errorListComponentType = parsingByComponentType(allErrorList);
-// const errorListSn = parsingByFailSN(allErrorList);
-// console.log(errorListComponentType);
-// // console.log(errorListSn);
-// // console.log(parsingReasionQty("cap0201", errorListComponentType));
-// // console.log(parsingStationQty("cap0201", errorListComponentType));
-// const cadRank = sortResult(errorListComponentType);
-// // console.log(sortResult(errorListSn));
-// console.log(getBatch(errorListComponentType, "cap0201", batchs));
 
 export default function App(props) {
   useEffect(() => {
-    console.log(props.location.state);
+    // console.log(props.location.state);
   });
   const componentType = props.location.state.item[0];
   const errorListComponentType = props.location.state.errorListComponentType;
@@ -46,18 +28,8 @@ export default function App(props) {
 
   const runChartData = getBatch(errorListComponentType, componentType, batches);
 
-  console.log(runChartData);
-
-  // export function getBatch(errorList, cadType, batches) {
-  //   const result = {};
-  //   batches.forEach((batch) => (result[batch] = 0));
-  //   errorList[cadType].forEach((defect) => (result[defect.batchNo] += 1));
-  //   const data = [];
-  //   for (let item in result) {
-  //     data.push({ batch: item, numbers: result[item] });
-  //   }
-  //   return data;
-  // }
+  const histogramData = errorListComponentType[componentType];
+  // console.log("histogramData", histogramData);
 
   return (
     <div className="page-vh">
@@ -82,7 +54,10 @@ export default function App(props) {
               <SingleRunChart data={runChartData} />
             </div>
 
-            <div className="details-card1"> </div>
+            <div className="details-card1">
+              <h4>Repair Turn Around Time:</h4>
+              <Histogram data={histogramData} />
+            </div>
           </Row>
         </div>
       </div>

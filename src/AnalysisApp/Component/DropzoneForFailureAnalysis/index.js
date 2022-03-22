@@ -12,7 +12,7 @@ export default function Dropzone({ callback, fileType, setFlag }) {
         reader.onabort = () => console.log("file reading was abort");
         reader.onerror = () => console.log("file reading has failed");
         reader.onload = (e) => {
-          console.log("received file ...");
+          // console.log("received file ...");
           const data = e.target.result;
 
           const retJson = readxlsx(data);
@@ -70,7 +70,7 @@ export default function Dropzone({ callback, fileType, setFlag }) {
               //   setFlag(false);
               // } else {
               const updatedJsonRepair = { RepairList: retJson[key] };
-              console.log(updatedJsonRepair);
+              // console.log(updatedJsonRepair);
               callback(updatedJsonRepair);
               setFlag(true);
               // }

@@ -259,7 +259,7 @@ export function allDefectsStationPareto(allErrorList) {
 export function sortResult(errorList) {
   let sortable = [];
   for (let defect in errorList) {
-    sortable.push([defect, errorList[defect].length]);
+    sortable.push([defect, errorList[defect].length, errorList[defect]]);
   }
 
   sortable.sort(function (a, b) {

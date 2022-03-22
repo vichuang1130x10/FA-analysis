@@ -1,16 +1,6 @@
 import React, { Component } from "react";
 import * as d3 from "d3";
-import styled from "styled-components";
 
-const ColorBox = styled.div`
-  float: left;
-  height: 20px;
-  width: 20px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  clear: both;
-  background-color: ${(props) => props.boxColor}; ;
-`;
 const width = 500;
 const height = 300;
 const margin = { top: 20, right: 5, bottom: 80, left: 35 };
