@@ -14,6 +14,8 @@ import {
   getBatch,
   allDefectsStationPareto,
   getNotAllowed,
+  parsingByLocationBySpecificSn,
+  parsingByLocationBySpecificSnByLevel,
 } from "../../Utils/ShopFloorDataParsing";
 
 export default function FileHandling() {
@@ -43,8 +45,22 @@ export default function FileHandling() {
     const snResult = sortResult(errorListSn);
     const repairMoreThanFive = snResult.filter((d) => d[1] > 5);
     const reapirMoreThanTwo = snResult.filter((d) => d[1] > 2);
-    const reapirMoreThanThree = snResult.filter((d) => d[1] > 3);
-    console.log(getBatch(errorListComponentType, "cap0201", batchs));
+    const reapirMoreThanThree = snResult
+      .filter((d) => d[1] > 3)
+      .map((d) => d[0]);
+
+    // console.log("repair more than 3", reapirMoreThanThree);
+
+    const samePositionMoreThen3 = parsingByLocationBySpecificSn(
+      errorListSn,
+      reapirMoreThanThree
+    );
+    const level2SamePositionMoreThen2 = parsingByLocationBySpecificSnByLevel(
+      errorListSn,
+      reapirMoreThanThree,
+      2
+    );
+
     const paretoStation = allDefectsStationPareto(errorListStations);
     const parsingLocation = parsingByLocation(allErrorList);
     const notAllowed = getNotAllowed(parsingLocation);
@@ -58,6 +74,8 @@ export default function FileHandling() {
         batchs,
         repairMoreThanFive,
         notAllowed,
+        samePositionMoreThen3,
+        level2SamePositionMoreThen2,
       },
     });
   };

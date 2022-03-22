@@ -269,6 +269,24 @@ export function sortResult(errorList) {
   return sortable;
 }
 
+export function sortResultMoreThanSpecificNumber(errorList, number) {
+  let sortable = [];
+  for (let defect in errorList) {
+    sortable.push([defect, errorList[defect].length, errorList[defect]]);
+  }
+
+  sortable.sort(function (a, b) {
+    return b[1] - a[1];
+  });
+
+  return sortable.filter((item) => item[1] > number);
+}
+
+// export function sortResultMoreThanTwiceForLevel2(errorList) {
+//   const dataMorethan2 = sortResultMoreThanSpecificNumber(errorList, 2);
+//   return dataMorethan2.filter((item) => Level2.includes(item[0]));
+// }
+
 export function parsingByFailSN(allDefectData) {
   const outputData = {};
   allDefectData.forEach((item) => {
@@ -302,6 +320,47 @@ export function parsingByLocation(allDefectData) {
   return outputData;
 }
 
+export function parsingByLocationBySpecificSn(sortedSnDefect, specificSns) {
+  const result = [];
+  specificSns.forEach((sn) => {
+    const allDefectsBySpecificSn = sortedSnDefect[sn];
+    const locationBytheSn = parsingByLocation(allDefectsBySpecificSn);
+
+    const item = sortResultMoreThanSpecificNumber(locationBytheSn, 3);
+    if (item.length) {
+      result.push(item);
+    }
+  });
+
+  return result;
+}
+
+export function parsingByLocationBySpecificSnByLevel(
+  sortedSnDefect,
+  specificSns,
+  level
+) {
+  const result = [];
+  specificSns.forEach((sn) => {
+    const allDefectsBySpecificSn = sortedSnDefect[sn];
+    const locationBytheSn = parsingByLocation(allDefectsBySpecificSn);
+
+    const item = sortResultMoreThanSpecificNumber(locationBytheSn, 2);
+    if (item.length) {
+      result.push(item);
+    }
+  });
+
+  const findResult = [];
+  result.forEach((i) => {
+    if (i[0][2].find((x) => x.level >= level)) {
+      findResult.push(i);
+    }
+  });
+
+  return findResult;
+}
+
 export function getNotAllowed(defectByLocation) {
   return defectByLocation["IPU12_IC36"].concat(
     defectByLocation["IPU12_IC55"],
@@ -329,6 +388,25 @@ export function parsingReasionQty(cadType, errorList) {
 
   return getParetoData(allDefects);
 }
+
+// export function parsingLocationQty(item, errorList) {
+//     if (errorList === undefined || errorList === null) {
+//       return [];
+//     }
+//     const allDefects = {};
+//     errorList[item].forEach((defect) => {
+//       if (
+//         allDefects[defect.item] === null ||
+//         allDefects[defect.item] === undefined
+//       ) {
+//         allDefects[defect.item] = 1;
+//       } else {
+//         allDefects[defect.item] += 1;
+//       }
+//     });
+
+//     return getParetoData(allDefects);
+//   }
 
 export function parsingStationQty(cadType, errorList) {
   if (errorList === undefined || errorList === null) {

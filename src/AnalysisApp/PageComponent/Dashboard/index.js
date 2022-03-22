@@ -26,6 +26,11 @@ const InfoCard = styled.div`
   align-items: center;
   margin-bottom: 20px;
   padding: 8px;
+  transition: all 0.3s;
+
+  :hover {
+    background-color: #eee;
+  }
 `;
 
 export default function App(props) {
@@ -43,36 +48,39 @@ export default function App(props) {
     });
   };
 
-  const tableData = props.location.state.cadRank;
-  const paretoData = props.location.state.paretoStation;
-  const errorListComponentType = props.location.state.errorListComponentType;
-  const allErrorList = props.location.state.allErrorList;
-  const batches = props.location.state.batchs;
-  const errorListSn = props.location.state.errorListSn;
-  const repairMoreThanFive = props.location.state.repairMoreThanFive;
+  // const tableData = props.location.state.cadRank;
+  // const paretoData = props.location.state.paretoStation;
+  // const errorListComponentType = props.location.state.errorListComponentType;
+  // const allErrorList = props.location.state.allErrorList;
+  // const batches = props.location.state.batchs;
+  // const errorListSn = props.location.state.errorListSn;
+  // const repairMoreThanFive = props.location.state.repairMoreThanFive;
+
+  // const notAllowed = props.location.state.notAllowed;
+
+  const {
+    cadRank: tableData,
+    paretoStation: paretoData,
+    errorListComponentType,
+    allErrorList,
+    batchs: batches,
+    errorListSn,
+    repairMoreThanFive,
+    notAllowed,
+    samePositionMoreThen3,
+    level2SamePositionMoreThen2,
+  } = props.location.state;
+
   const top10 = tableData.slice(0, 10).map((item) => item[0]);
   const top10Batches = top10.map((item) =>
     getBatch(errorListComponentType, item, batches)
   );
 
-  const notAllowed = props.location.state.notAllowed;
-
-  const rule3 = allErrorList.filter((item) => item.level === 3);
-  console.log(rule3);
+  // const rule3 = allErrorList.filter((item) => item.level === 3);
+  // console.log(rule3);
 
   // console.log(top10Batches);
 
-  // console.log(getBatch(errorListComponentType, "cap0201", batchs));
-  // const paretoStation = allDefectsStationPareto(errorListStations);
-  // navigate(`/dashboard`, {
-  //   state: {
-  //     allErrorList,
-  //     errorListComponentType,
-  //     errorListSn,
-  //     cadRank,
-  //     paretoStation,
-  //   },
-  // });
   return (
     <div className="page-vh">
       <div className="container">
@@ -90,6 +98,18 @@ export default function App(props) {
             <InfoCard>
               <h4>{`Not Allowed to Repair`}</h4>
               <h4 style={{ color: "red" }}>{notAllowed.length}</h4>
+            </InfoCard>
+
+            <InfoCard>
+              <h4>{`Same Position > 3`}</h4>
+              <h4 style={{ color: "red" }}>{samePositionMoreThen3.length}</h4>
+            </InfoCard>
+
+            <InfoCard>
+              <h5>{`levle 2 Same position > 2`}</h5>
+              <h4 style={{ color: "red" }}>
+                {level2SamePositionMoreThen2.length}
+              </h4>
             </InfoCard>
           </div>
           <div className="dashboard-card2">
